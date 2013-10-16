@@ -1,40 +1,33 @@
+## CNEFE Torrent
 
-Este é um pacote de dados do Cadastro Nacional de Endereços para Fins Estatísticos (CNEFE), uma base de dados produzida pelo IBGE que contém o universo de endereços visitados pelo Censo 2010.
+Este é um pacote de distribuição dos arquivos do [Cadastro Nacional de Endereços para Fins Estatísticos (CNEFE)](http://www.ibge.gov.br/home/estatistica/populacao/censo2010/cnefe/default_cnefe.shtm) via protocolo [BitTorrent](http://pt.wikipedia.org/wiki/BitTorrent). Ele foi criado para aumentar a velocidade de download destes dados e para garantir que estejam permanentemente disponíveis.
 
-=== Como baixar?
+Segundo o site do IBGE:
 
-Este pacote utiliza o protocolo BitTorrent para sua transferência.
+> [O Cadastro Nacional de Endereços para Fins Estatísticos – CNEFE apresenta uma lista com 78.056.411 endereços urbanos e rurais, distribuídos pelos 316 574 setores censitários, classificados por tipo: unidades residenciais, unidades de ensino, unidades de saúde e outros. A listagem contém, apenas, os endereços com identificação do nome do logradouro, número, complemento e coordenadas nos setores rurais, sem mencionar informação econômica ou social correspondente àquele endereço.](http://www.ibge.gov.br/home/estatistica/populacao/censo2010/cnefe/default_cnefe.shtm)
 
-Caso você não tenha um programa de torrent, o uTorrent, Vuze e Transmision são boas opções.
+### Como baixar?
 
-Com um desses programas instalados, baixe e abra o seguinte arquivo:
+Caso você ainda não tenha, instale um cliente de torrent. O [uTorrent](http://www.utorrent.com), [Vuze](http://www.vuze.com) e [Transmision](http://www.transmissionbt.com) são boas opções.
 
-(link para o arquivo)
+Com um desses programas instalados, baixe e abra este arquivo .torrent. 
 
-A transferência da base completa irá iniciar. Caso você queira apenas umas parcela dos arquivos, entre na lista de arquivos do torrento e marque os arquivos ignorados (geralmente isso pode ser feito clicando com o botão direito sobre o arquivo).
+Caso você não queira baixar todos os arquivos, o seu cliente de torrent deve permitir ignorá-los ao clicar com o botão direito sobre os indesejados.
 
-Caso você queria baixar poucos arquivos, talvez seja melhor você ir direto ao FTP do IBGE.
+Caso você queria baixar poucos arquivos, vá direto ao [FTP do IBGE](ftp://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos).
 
-=== Aspectos legais
+### Aspectos legais
 
-Os dados disponibilizados no torrent não vem com nenhuma garantia. 
+Os dados são de domínio público e é necessária atribuição de fonte ao IBGE. 
 
-O IBGE não é muito claro em dizer qual a política de licenciamento de seus dados, então subentende-se que, por serem produzidos com dinheiro público e não afetam a privacidade dos cidadãos, os dados são de domínio público. Em uma troca de e-mails ocorrida em 2011 (link?), o serviço de atendimento do IBGE informou que os dados são de domínio público, mas com necessidade de atribuição de fonte.   
+### Qualidade 
 
-=== Perguntas e Repostas
+Os arquivos .zip deste pacote foram testados e são identicos aos disponíveis no [FTP do IBGE](ftp://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos). 
 
-=== O que há neste pacote?
+### Garantia
 
-Cada arquivo zip do pacote contém um arquivo texto com colunas de tamanho fixo. O arquivo datapackage.json contém a descrição dos campos.
+O mantenedor deste pacote não oferece nenhuma garantia sobre os dados. Use-os por sua conta. 
 
-==== Não tenho como baixar via torrent, como faço para baixar tudo direto do FTP do IBGE?
+### Suporte
 
-(resposta)
-
-==== De quando são estes arquivos?
-
-Eles foram baixados e empacotados em d%d%%%%. Parece que eles não mudam muito, mas se você notar alguma diferença, abra um issue para que um novo pacote seja gerado.
-
-==== Minha pergunta não foi respondida, onde reclamo?
-
-Toda a suporte e discussão sobre melhorias deste pacote devem ser feitas na seção de issues deste repositório.
+Para dúvidas, sugestões ou críticas, abra um [issue](https://github.com/mapaslivres/dados-cnefe/issues).
