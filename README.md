@@ -1,6 +1,6 @@
 ## CNEFE Torrent
 
-Este é um pacote de distribuição dos arquivos do [Cadastro Nacional de Endereços para Fins Estatísticos (CNEFE)](http://www.ibge.gov.br/home/estatistica/populacao/censo2010/cnefe/default_cnefe.shtm) via protocolo [BitTorrent](http://pt.wikipedia.org/wiki/BitTorrent). Ele foi criado para aumentar a velocidade de download destes dados e para garantir que estejam permanentemente disponíveis.
+Este é um pacote de distribuição dos arquivos do [Cadastro Nacional de Endereços para Fins Estatísticos (CNEFE)](http://www.ibge.gov.br/home/estatistica/populacao/censo2010/cnefe/default_cnefe.shtm) via protocolo [BitTorrent](http://pt.wikipedia.org/wiki/BitTorrent). O pacote foi criado para aumentar a velocidade de download destes dados e para garantir que estejam permanentemente disponíveis. O seu tamanho é de 883 megas.
 
 Segundo o site do IBGE:
 
