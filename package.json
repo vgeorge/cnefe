@@ -1,0 +1,16 @@
+{
+  "name": "cnefe",
+  "version": "0.0.1",
+  "description": "Command-line tools to work with CNEFE data",
+  "main": "index.js",
+  "repository": "git@github.com:vgeorge/cnefe-scripts.git",
+  "author": "Vitor George <vitor.george@gmail.com>",
+  "license": "MIT",
+  "cnefeFtp": "ftp://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos/",
+  "dependencies": {
+    "commander": "^2.15.1"
+  },
+  "devDependencies": {
+    "eslint-config-google": "^0.9.1"
+  }
+}
