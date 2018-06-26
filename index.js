@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
+const program = require('commander');
+
 const { cnefeFtp, version } = require('./package.json');
 
-var program = require('commander');
 const { spawn } = require("child_process");
 
 // Set version
@@ -11,7 +12,7 @@ program.version(version);
 // Command: download
 program
   .command('download [targetDir]')
-  .description('download CNEFE files from IBGE FTP to [targetDir], defaults to ./cnefe.')
+  .description('download CNEFE files from IBGE FTP to [targetDir], defaults to ./data/ibge-ftp.')
   .action(function (targetDir){
     const clone = spawn('wget', [
       `ftp-url`, 
@@ -19,7 +20,7 @@ program
       `--no-host-directories`, 
       `--cut-dirs=3`, 
       `--recursive`,
-      `--directory-prefix=${targetDir}`,
+      `--directory-prefix=${targetDir || './data/ibge-ftp'}`,
       `-A.zip`, 
       cnefeFtp
     ]);
