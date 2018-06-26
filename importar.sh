@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # Edite as configurações de importação
-DATA_DIR=dados/cnefe
+DATA_DIR=./data/ibge-ftp
 
-psql -d cnefe -c "
+psql -h localhost -U cnefe -d cnefe -p 15432 -c "
   CREATE TABLE IF NOT EXISTS addresses(
     sectorId text NOT NULL,
     sectorSituation text,
@@ -40,7 +40,7 @@ psql -d cnefe -c "
 "
 
 for file in $(find $DATA_DIR -name "*.zip"); do
-  unzip -p $file | gawk -v FIELDWIDTHS='15 1 20 30 60 8 7 20 10 20 10 20 10 20 10 20 10 20 10 15 15 60 60 2 40 1 30 3 3 8' -v OFS=';' '{ $1=$1; print }' | psql -d cnefe -c "
+  unzip -p $file | gawk -v FIELDWIDTHS='15 1 20 30 60 8 7 20 10 20 10 20 10 20 10 20 10 20 10 15 15 60 60 2 40 1 30 3 3 8' -v OFS=';' '{ $1=$1; print }' | psql -h localhost -U cnefe -d cnefe -p 15432 -c "
     set client_encoding = 'latin1';
     COPY addresses from stdin DELIMITER ';';
   "
