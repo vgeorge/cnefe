@@ -6,7 +6,10 @@
   "repository": "git@github.com:vgeorge/cnefe-scripts.git",
   "author": "Vitor George <vitor.george@gmail.com>",
   "license": "MIT",
-  "cnefeFtp": "ftp://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos/",
+  "bases": {
+    "cnefe": "ftp://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos/",
+    "logradouros": "ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros"
+  },
   "dependencies": {
     "commander": "^2.15.1"
   },
