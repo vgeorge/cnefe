@@ -1,19 +1,20 @@
 # Censo 2010 - CNEFE 
 
-Datasets from the National Register of Addresses for Statistical Purposes (CNEFE) of the 2010 Demographic Census, conducted by Brazilian Institute by Geography and Statistics.
+Arquivos relacionados ao Cadastro Nacional de Endereços para Fins Estatísticos do Censo Demográfico 2010 do IBGE.
 
-[CNEFE website.](https://ww2.ibge.gov.br/home/estatistica/populacao/censo2010/cnefe/default_cnefe.shtm)
+[Visite a página oficial.](https://ww2.ibge.gov.br/home/estatistica/populacao/censo2010/cnefe/default_cnefe.shtm)
 
-[Leia este documento em português.](README-pt.md)
-## Motivation
+[This document in English.](README.md)
 
-This repository aims to facilitate access to CNEFE data. The datasets have thousands of files and download can take a long time. All files listed here have a torrent version for faster download. Thanks for seeding!
+## Motivação
 
-## List of datasets
+Este repositório tem o objetivo de facilitar o acesso aos dados do CNEFE. As bases contam com milhares de arquivos e o seu download pode demorar muito tempo. Todos os arquivos listados aqui contam com uma versão torrent para download mais rápido. Agradecemos o seeding!
+
+## Lista de Bases
 
 ### CNEFE (2010)
 
-Fixed width text files containing all addresses. Updated by IBGE in 2019/08/13.
+Arquivos texto de coluna fixa com todos os endereços, atualizados pelo IBGE em 13/08/2019.
 
 - 📂 [ftp](https://is.gd/cnefe_2010_13_08_2019) 
 - 🧲 [magnet](https://is.gd/cnefe_2010_13_08_2019_magnet) 
@@ -21,7 +22,7 @@ Fixed width text files containing all addresses. Updated by IBGE in 2019/08/13.
 
 ### Base de Faces de Logradouros (2010)
 
-Shapefiles with street segments, provided in 2010.
+Shapefiles com os segmentos das faces de logradouro, atualizado em 2010 pelo IBGE. 
 
 - 📂 [ftp](https://is.gd/censo_2010_logradouros_2010) 
 - 🧲 [magnet](https://is.gd/censo_2010_logradouros_2010_ma) 
@@ -30,7 +31,7 @@ Shapefiles with street segments, provided in 2010.
 
 ### Base de Faces de Logradouros (2019)
 
-Shapefiles with street segments, provided in 2019.
+Shapefiles com os segmentos das faces de logradouro, atualizado em 2019 pelo IBGE.
 
 - 📂 [ftp](https://is.gd/censo_2010_logradouros_2019) 
 - 🧲 [magnet](https://is.gd/censo_2010_logradouros_2019_ma) 
