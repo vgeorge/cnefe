@@ -1,12 +1,14 @@
 version: '2'
 services:
   postgres:
-    image: mdillon/postgis:9.6
+    image: kartoza/postgis:13.0
     ports:
       - 15432:5432
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - ./data/postgres:/opt/postgres/data
     environment:
+      - RECREATE_DATADIR=TRUE
+      - DATADIR=/opt/postgres/data
       - POSTGRES_DB=cnefe
       - POSTGRES_USER=cnefe
       - POSTGRES_PASSWORD=cnefe
