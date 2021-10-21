@@ -22,7 +22,7 @@ Arquivos texto de coluna fixa com todos os endereços, atualizados pelo IBGE em 
 Download direto com wget:
 
 ```bash
-wget --mirror --no-passive ftp://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos
+wget -r -N -l inf --no-passive-ftp ftp://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos
 ```
 
 ### Base de Faces de Logradouros (2010)
@@ -33,7 +33,7 @@ wget --mirror --no-passive ftp://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/C
 Download direto com wget:
 
 ```bash
-wget --mirror --no-passive ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2010
+wget -r -N -l inf --no-passive-ftp ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2010
 ```
 
 ### Base de Faces de Logradouros (2019)
@@ -44,7 +44,7 @@ wget --mirror --no-passive ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisti
 Download direto com wget:
 
 ```bash
-wget --mirror --no-passive ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2019
+wget -r -N -l inf --no-passive-ftp ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2019
 ```
 
 ### Base de Faces de Logradouros (2020)
@@ -55,5 +55,5 @@ wget --mirror --no-passive ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisti
 Download direto com wget:
 
 ```bash
-wget --mirror --no-passive ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2020
+wget -r -N -l inf --no-passive-ftp ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2020
 ```
