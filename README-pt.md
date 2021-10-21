@@ -1,4 +1,4 @@
-# Censo 2010 - CNEFE 
+# Censo 2010 - CNEFE
 
 Arquivos relacionados ao Cadastro Nacional de Endereços para Fins Estatísticos do Censo Demográfico 2010 do IBGE.
 
@@ -16,23 +16,44 @@ Este repositório tem o objetivo de facilitar o acesso aos dados do CNEFE. As ba
 
 Arquivos texto de coluna fixa com todos os endereços, atualizados pelo IBGE em 13/08/2019.
 
-- 📂 [ftp](https://is.gd/cnefe_2010_13_08_2019) 
-- 🧲 [magnet](https://is.gd/cnefe_2010_13_08_2019_magnet) 
-- ⬇ [.torrent](torrent%2FCenso%20Demogr%C3%A1fico%202010%20-%20Cadastro%20Nacional%20de%20Endere%C3%A7os%20Fins%20Estat%C3%ADsticos%20(CNEFE)%20-%2013-08-2019.torrent)
+- 📂 [ftp](https://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos)
+- ⬇ [.torrent](torrent/cnefe-2010.torrent)
+
+Download direto com wget:
+
+```bash
+wget --mirror --no-passive ftp://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos
+```
 
 ### Base de Faces de Logradouros (2010)
 
-Shapefiles com os segmentos das faces de logradouro, atualizado em 2010 pelo IBGE. 
+- 📂 [ftp](https://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2010)
+- ⬇ [.torrent](torrent/cnefe-2010-logradouros-2010.torrent)
 
-- 📂 [ftp](https://is.gd/censo_2010_logradouros_2010) 
-- 🧲 [magnet](https://is.gd/censo_2010_logradouros_2010_ma) 
-- ⬇ [.torrent](torrent%2FCenso%20Demogr%C3%A1fico%202010%20-%20Base%20de%20Faces%20de%20Logradouros%20-%20vers%C3%A3o%202010.torrent)
+Download direto com wget:
 
+```bash
+wget --mirror --no-passive ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2010
+```
 
 ### Base de Faces de Logradouros (2019)
 
-Shapefiles com os segmentos das faces de logradouro, atualizado em 2019 pelo IBGE.
+- 📂 [ftp](https://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2019)
+- ⬇ [.torrent](torrent/cnefe-2010-logradouros-2019.torrent)
 
-- 📂 [ftp](https://is.gd/censo_2010_logradouros_2019) 
-- 🧲 [magnet](https://is.gd/censo_2010_logradouros_2019_ma) 
-- ⬇ [.torrent](torrent%2FCenso%20Demogr%C3%A1fico%202010%20-%20Base%20de%20Faces%20de%20Logradouros%20-%20vers%C3%A3o%202019.torrent)
+Download direto com wget:
+
+```bash
+wget --mirror --no-passive ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2019
+```
+
+### Base de Faces de Logradouros (2020)
+
+- 📂 [ftp](https://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2020)
+- ⬇ [.torrent](torrent/cnefe-2010-logradouros-2020.torrent)
+
+Download direto com wget:
+
+```bash
+wget --mirror --no-passive ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2020
+```
