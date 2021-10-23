@@ -17,7 +17,7 @@ This repository aims to facilitate access to CNEFE data. The datasets have thous
 Fixed width text files containing all addresses. Updated by IBGE in 2019/08/13.
 
 - 📂 [ftp](https://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos)
-- ⬇ [.torrent](torrent/cnefe-2010.torrent)
+- ⬇ [.torrent](https://raw.githubusercontent.com/vgeorge/cnefe/master/torrent/cnefe-2010.torrent)
 
 Download directly with wget:
 
