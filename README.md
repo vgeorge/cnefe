@@ -28,7 +28,7 @@ wget -r -N -l inf --no-passive-ftp ftp://ftp.ibge.gov.br/Censos/Censo_Demografic
 ### Faces de Logradouros (2010)
 
 - 📂 [ftp](https://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2010)
-- ⬇ [.torrent](torrent/cnefe-2010-logradouros-2010.torrent)
+- ⬇ [.torrent](https://raw.githubusercontent.com/vgeorge/cnefe/master/torrent/cnefe-2010-logradouros-2010.torrent)
 
 Download directly with wget:
 
@@ -39,7 +39,7 @@ wget -r -N -l inf --no-passive-ftp ftp://geoftp.ibge.gov.br/recortes_para_fins_e
 ### Faces de Logradouros (2019)
 
 - 📂 [ftp](https://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2019)
-- ⬇ [.torrent](torrent/cnefe-2010-logradouros-2019.torrent)
+- ⬇ [.torrent](https://raw.githubusercontent.com/vgeorge/cnefe/master/torrent/cnefe-2010-logradouros-2019.torrent)
 
 Download directly with wget:
 
@@ -50,7 +50,7 @@ wget -r -N -l inf --no-passive-ftp ftp://geoftp.ibge.gov.br/recortes_para_fins_e
 ### Faces de Logradouros (2020)
 
 - 📂 [ftp](https://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2020)
-- ⬇ [.torrent](torrent/cnefe-2010-logradouros-2020.torrent)
+- ⬇ [.torrent](https://raw.githubusercontent.com/vgeorge/cnefe/master/torrent/cnefe-2010-logradouros-2020.torrent)
 
 Download directly with wget:
 
