@@ -1,9 +1,13 @@
-#!/bin/sh
+if echo '\l' | psql -U postgres cnefe > /dev/null; then
+    echo "ok - postgres cnefe database exists"
+else
+    echo "
+        CREATE DATABASE cnefe;
+    " | psql -U postgres
+fi
 
-# Edite as configurações de importação
-DATA_DIR=~/dev/openaddresses/scripts/br/downloads/ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos/AC
 
-psql -h localhost -U cnefe -d cnefe -p 15432 -c "
+psql -d cnefe -c "
   CREATE TABLE IF NOT EXISTS addresses(
     sectorId text NOT NULL,
     sectorSituation text,
@@ -39,8 +43,9 @@ psql -h localhost -U cnefe -d cnefe -p 15432 -c "
   DELETE FROM addresses;
 "
 
-for file in $(find $DATA_DIR -name "*.zip"); do
-  unzip -p $file | gawk -v FIELDWIDTHS='15 1 20 30 60 8 7 20 10 20 10 20 10 20 10 20 10 20 10 15 15 60 60 2 40 1 30 3 3 8' -v OFS=';' '{ $1=$1; print }' | psql -h localhost -U cnefe -d cnefe -p 15432 -c "
+DATA_DIR=~/dev/openaddresses/scripts/br/downloads/ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos
+for file in $(find $DATA_DIR -name "??.zip"); do
+  unzip -p $file | gawk -v FIELDWIDTHS='15 1 20 30 60 8 7 20 10 20 10 20 10 20 10 20 10 20 10 15 15 60 60 2 40 1 30 3 3 8' -v OFS=';' '{ $1=$1; print }' | psql -d cnefe -c "
     set client_encoding = 'latin1';
     COPY addresses from stdin DELIMITER ';';
   "
