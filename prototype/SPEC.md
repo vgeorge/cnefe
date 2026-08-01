@@ -1,63 +1,111 @@
-# Prototype spec — Aracaju logradouros for iD
+# SPEC — Panel redesign + OSM for Cities visual language
 
-Throwaway prototype. **Primary goal: make CNEFE 2022 logradouros loadable as a reference
-overlay in the OSM iD editor.** Secondary: a React/Vite preview app. Validate on one município
-(Aracaju) before scaling to Sergipe → Brazil.
+Status: approved direction, ready for implementation plan
+Date: 2026-07-31
 
-## Success test
-1. **iD (primary):** In iD, Map Data → Custom → `{z}/{x}/{y}` template pointing at our local
-   tiles renders Aracaju street-face lines over live OSM; street names usable for comparison.
-2. **Preview app (secondary):** React/Vite page shows the same tiles over a Carto-style basemap
-   with a Nominatim search box that flies to a picked Aracaju place.
+## Goal
+
+Simplify the CNEFE app's UI and align it to the **OSM for Cities** visual
+language (its "Design Atlas" token set), so this personal project feels part of
+the same family. The map is the product; the panel is a calm companion surface
+used beside any editor.
+
+## Problems being fixed (from UX review)
+
+1. Three stacked surfaces (About + Search + nested toggle); About is expanded by
+   default with 5 paragraphs — heavy first load for a repeat-use utility.
+2. Search (the primary action) sits *below* About.
+3. Compare mode — a real feature — is buried inside the "Sobre" card footer.
+4. Empty state: layer minzoom is 13/15, so national/zoomed-out load shows a blank
+   basemap with no guidance (looks broken). This also covers the previously
+   deferred "street-level only" warning.
+5. Same text repeated 3× (About paragraph, toggle hint, swipe tooltip).
+6. Heavy `0 1px 6px` shadows, system font, ad-hoc grays — no shared identity.
+
+## Visual language (source: osmforcities/osmforcities `globals.css`)
+
+Design Atlas tokens, adapted to this app's hand-written CSS as `:root` variables:
+
+| Token            | Value            | Use                                   |
+|------------------|------------------|---------------------------------------|
+| `--font-sans`    | Geist Sans       | all UI text (bundled, self-hosted)    |
+| `--font-mono`    | Geist Mono       | zoom HUD (tabular)                    |
+| `--radius`       | 10px             | cards; 8px inner controls; 6px pills   |
+| `--background`   | `#ffffff`        | card bg                                |
+| `--foreground`   | `#252525`        | primary text                          |
+| `--muted`        | `#f7f7f7`        | headers / hover rows                   |
+| `--muted-foreground` | `#737373`    | secondary text / hints                |
+| `--border`       | `#e5e5e5`        | hairline borders (replaces shadows)    |
+| `--accent-blue`  | `#0b4ad8`        | links, highlight, divider, marker      |
+| `--accent-blue-active` | `#06256d`  | active/pressed                        |
+| shadow           | `0 1px 2px rgba(0,0,0,.06)` + border | subtle card lift    |
+
+**Font bundling:** self-host Geist woff2 (via `@fontsource/geist-sans` +
+`@fontsource/geist-mono`, or the `geist` package's woff2) and import in
+`main.jsx`. No external font requests (CSP/offline-safe).
+
+### Map colors (full retheme → Design Atlas)
+
+| Element               | Before      | After (Atlas)          |
+|-----------------------|-------------|------------------------|
+| CNEFE line            | `#FF600B`   | orange-600 `#e47a00` (deeper = legible on light basemap) |
+| hover/selected highlight | `#1d4ed8` | blue-500 `#0b4ad8`     |
+| label text / halo     | `#1b1b1b` / white | `#252525` / white (unchanged intent) |
+| swipe divider + handle | `#1d4ed8`  | blue-500 `#0b4ad8`     |
+| search marker         | orange (data color) | blue-500 `#0b4ad8` (UI pin, distinct from data) |
+
+Label `text-font` MUST stay `["Noto Sans Regular"]` (OpenFreeMap glyph endpoint
+404s on other stacks → whole vector tile fails to parse → lines vanish). Geist
+applies to the DOM UI only, not map glyphs.
+
+## New layout — one card
+
+```
+┌─────────────────────────────┐
+│ 🔍 Buscar logradouro…        │   search = hero, always visible
+│   ⌄ results dropdown          │
+├─────────────────────────────┤
+│ ⇄ Comparar        ⓘ Sobre   │   thin footer row
+└─────────────────────────────┘
+```
+
+- **Search** is the top, always-visible hero.
+- **Footer row:** a labeled **Comparar** toggle (visible, no longer inside
+  About) + an **ⓘ Sobre** trigger.
+- **Sobre** opens a popover/modal with the full description (title, what CNEFE
+  is, how to compare, click-to-copy hint, "projeto open-source independente",
+  the accent/caixa caveat). Removed from the always-on surface.
+- **Locate control** (manual): a persistent locate (⌖) button (MapLibre
+  `GeolocateControl`) centers on the user's location on demand. No auto-prompt on
+  load — geolocation only runs when the user clicks it.
+- **Zoom warning** (fallback + street-level notice): one unobtrusive top-center
+  pill, shown *only* when `zoom < layerMinzoom` (13) — text: "Aproxime para ver
+  os logradouros do CNEFE." Auto-hides once streets render. The actual actions
+  (locate, search) are the existing controls, so the warning carries no buttons.
+- Zoom HUD + attribution kept, restyled to tokens (muted, hairline, Geist Mono
+  for the HUD number). MapLibre's own controls softened to the token radius.
 
 ## Non-goals
-Address points; hosting/deploy; production polish. Other municípios come via the parallel
-data pull but the prototype only tiles Aracaju.
 
-## Delivery format — XYZ MVT (PMTiles dropped)
-iD cannot read `.pmtiles`. iD custom data = `{z}/{x}/{y}` **MVT** template or GeoJSON.
-So produce **XYZ MVT** (`{z}/{x}/{y}.pbf`) via tippecanoe `--output-to-directory`.
-Same source feeds the React app (MapLibre reads XYZ vector directly). No PMTiles.
-- **`--no-tile-compression`** (uncompressed pbf) so a plain static host / iD needs no gzip header.
-- Serve with **CORS** (`Access-Control-Allow-Origin: *`) or iD's cross-origin fetch fails.
+- No dark mode (basemap is Positron/light).
+- No change to data pipeline, PMTiles, search, copy logic, or compare mechanics —
+  visual/layout only.
+- Not importing OSM for Cities React components (it's Next/Tailwind/shadcn); we
+  replicate the *tokens* in this app's plain CSS.
 
-## Data
-- Confirmed base: `geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2022/base_de_faces_de_logradouros_versao_2022_censo_demografico/json/`
-- Aracaju = `2800308` → `SE/2800308_faces_de_logradouros_2022.json` (downloaded/extracted in scratchpad).
-- LineString, EPSG:4326 (no reprojection), 28,847 features. Extent ≈ lon -37.16..-37.03, lat -11.13..-10.86.
-- Fields `CD_SETOR CD_QUADRA CD_FACE NM_TIP_LOG NM_TIT_LOG NM_LOG TOT_RES TOT_GERAL`.
-- Derive `name` = trim/join `NM_TIP_LOG`+`NM_TIT_LOG`+`NM_LOG`. Keep `name`, `NM_LOG`, `TOT_GERAL`.
+## Also fix (small, in-scope)
 
-## Pipeline (Aracaju)
-1. `ogr2ogr` GeoJSON → GeoJSONL, add computed `name`, keep 3 props.
-2. `tippecanoe -Z12 -z16 --no-tile-compression --output-to-directory public/tiles/ -l logradouros`
-   (keep all lines; `--no-tile-size-limit` if needed). Emits `{z}/{x}/{y}.pbf` + `metadata.json`.
-3. Reproducible `build.sh` (download → unzip Aracaju → convert → tile).
+- Search results dropdown reopening after `pick()` (query refill re-triggers
+  search). Guard so picking a result doesn't reopen the list.
+- `aria-live` on toast; label on search input for a11y.
 
-## Preview app — React + Vite (static)
-- `maplibre-gl`. Basemap **OpenFreeMap Positron** (`https://tiles.openfreemap.org/styles/positron`).
-- Source: vector, `tiles: ["http://localhost:PORT/tiles/{z}/{x}/{y}.pbf"]`, `minzoom 12 maxzoom 16`.
-- Layers: line (orange `#FF600B`, width ramp) + symbol `text-field=["get","name"]`, placement `line`, from ~z14.
-- Nominatim search (top-left): `nominatim.openstreetmap.org/search?format=jsonv2&countrycodes=br&bounded=1&viewbox=<aracaju bbox>&q=…`, debounced ≥3 chars, custom UA, ≤1 req/s, results dropdown → `flyTo` + marker.
-- Attribution: "IBGE CNEFE 2022 · OpenFreeMap/OSM · Nominatim".
+## Acceptance
 
-## iD integration doc
-`README.md` with the exact steps + the local `{z}/{x}/{y}` URL to paste into iD Custom Map Data,
-and a note on the CORS + uncompressed-tile requirements. This is the primary deliverable to verify.
-
-## Layout (`cnefe/prototype/`)
-```
-build.sh                 # data → public/tiles/{z}/{x}/{y}.pbf
-serve-tiles.sh           # CORS-enabled static server for public/tiles (for iD)
-app/                     # React + Vite (its own package.json, node_modules gitignored)
-public/tiles/…           # XYZ MVT output (gitignored via data? no — small; see note)
-README.md                # build + run + how-to-add-to-iD
-```
-
-## Execution — agents
-- **Parallel (background): data-pull agent** — download ALL 27 UF faces-de-logradouros GeoJSON
-  zips to `cnefe/data/faces2022/json/` (gitignored), robust retries, verify each, report sizes.
-- **Build agent** — Aracaju tiles (`build.sh`) → React/Vite app + Nominatim + `serve-tiles.sh` +
-  iD README; verify tiles are valid MVT and render in the app; document/verify the iD load.
-
-## Tooling present: GDAL, tippecanoe, tile-join, node/npx. No installs expected.
+- Panel is a single card: search hero + footer (Comparar + Sobre). About lives
+  in a popover, closed on load.
+- Geist renders across UI; no external font/network requests.
+- Map line/highlight/divider/marker use Design Atlas hex values above; CNEFE
+  lines + labels still render at z13/z15+ (font unchanged).
+- Zoomed out below minzoom shows the contextual hint; it disappears when zoomed
+  into street level.
+- Picking a search result flies there without reopening the results list.

@@ -5,8 +5,6 @@
 app/node_modules/
 app/dist/
 
-# generated tile archives (regenerate via build.sh)
+# generated tile archives + local assets
 *.pmtiles
 app/public/
-
-# keep: public/tiles/ (small, ~6.9 MB) and verify/ screenshots
