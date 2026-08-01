@@ -1,0 +1,354 @@
+/* ============================================================
+   CNEFE 2022 — visual language: OSM for Cities "Design Atlas".
+   Light theme only by design (it's a light map tool).
+   Geist is bundled via @fontsource (see main.jsx).
+   ============================================================ */
+:root {
+  --font-sans: "Geist Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --background: #ffffff;
+  --foreground: #252525;
+  --muted: #f6f6f6;
+  --muted-foreground: #737373;
+  --border: #e5e5e5;
+
+  --accent: #0b4ad8; /* Design Atlas blue-500 */
+  --accent-active: #06256d; /* blue-600 */
+  --data: #e47a00; /* orange-600 — CNEFE line */
+
+  --radius: 10px;
+  --radius-inner: 8px;
+  --radius-pill: 999px;
+  --shadow: 0 1px 2px rgba(20, 20, 30, 0.06), 0 4px 16px rgba(20, 20, 30, 0.06);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; height: 100%; }
+body {
+  font-family: var(--font-sans);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- swipe compare: two stacked full-size maps ---- */
+.map-stack { position: absolute; inset: 0; }
+#base-map { position: absolute; inset: 0; z-index: 1; }
+.overlay-map {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  /* clip-path is written directly by JS: inset(0 calc(100% - Xpx) 0 0) */
+}
+.overlay-map-inner { position: absolute; inset: 0; }
+
+/* ---- divider + draggable handle ---- */
+.swipe-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--accent);
+  z-index: 9;
+  pointer-events: none;
+}
+.swipe-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--accent);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+  cursor: ew-resize;
+  pointer-events: auto;
+  touch-action: none;
+  display: grid;
+  place-items: center;
+}
+.swipe-handle::before {
+  content: "‹ ›";
+  font-size: 13px;
+  letter-spacing: -1px;
+  color: var(--accent);
+}
+
+/* side tags in compare mode */
+.side-tag {
+  position: absolute;
+  top: 12px;
+  z-index: 9;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border);
+}
+.side-tag.cnefe { color: var(--data); white-space: nowrap; }
+.side-tag.osm { color: var(--accent); white-space: nowrap; }
+
+/* ---- toast ---- */
+.toast {
+  position: absolute;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  max-width: calc(100vw - 40px);
+  background: #1a1a1a;
+  color: #fff;
+  padding: 9px 15px;
+  border-radius: var(--radius-inner);
+  font-size: 13px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.toast .ok { color: #8df0bd; margin-right: 6px; }
+
+/* ---- left panel: single card ---- */
+.left-panel {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 10;
+  width: 328px;
+  max-width: calc(100vw - 28px);
+}
+.card {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 12px;
+}
+.search svg { flex: none; color: var(--muted-foreground); }
+.search input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  padding: 12px 0;
+  font: inherit;
+  font-size: 14.5px;
+  color: var(--foreground);
+}
+.search input::placeholder { color: var(--muted-foreground); }
+
+.results {
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  border-top: 1px solid var(--border);
+  max-height: 280px;
+  overflow-y: auto;
+}
+.results li {
+  padding: 8px 9px;
+  border-radius: var(--radius-inner);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--foreground);
+}
+.results li:hover { background: var(--muted); }
+.search-hint { padding: 8px 13px; font-size: 12px; color: var(--muted-foreground); }
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px 8px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--muted);
+}
+/* switch */
+.switch { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; user-select: none; }
+.switch input { position: absolute; opacity: 0; pointer-events: none; }
+.track {
+  position: relative;
+  width: 34px;
+  height: 20px;
+  border-radius: var(--radius-pill);
+  background: #d7d9dc;
+  transition: background 0.16s ease;
+  flex: none;
+}
+.track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: transform 0.16s ease;
+}
+.switch input:checked + .track { background: var(--accent); }
+.switch input:checked + .track::after { transform: translateX(14px); }
+.switch input:focus-visible + .track { box-shadow: 0 0 0 3px rgba(11, 74, 216, 0.28); }
+.switch .lbl { font-size: 13px; font-weight: 550; display: inline-flex; align-items: center; gap: 6px; }
+.switch .lbl svg { color: var(--muted-foreground); }
+
+.about-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 550;
+  padding: 6px 8px;
+  border-radius: var(--radius-inner);
+  cursor: pointer;
+}
+.about-btn:hover { background: rgba(11, 74, 216, 0.08); }
+.about-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* ---- zoom warning: one unobtrusive line (shown when zoom too low) ---- */
+.zoomnote {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100vw - 32px);
+  padding: 8px 14px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  color: var(--foreground);
+}
+.zoomnote .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--data); flex: none; }
+
+/* ---- zoom HUD + attribution ---- */
+.zoom-hud {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 10;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--border);
+  padding: 3px 9px;
+  border-radius: var(--radius-inner);
+}
+.attribution {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 10;
+  font-size: 11px;
+  color: var(--muted-foreground);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--border);
+  padding: 3px 9px;
+  border-radius: var(--radius-inner);
+}
+
+/* ---- Sobre modal ---- */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  background: rgba(20, 20, 25, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal {
+  width: 440px;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+}
+.modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px 6px;
+}
+.modal-head h2 { margin: 0; font-size: 17px; font-weight: 650; letter-spacing: -0.2px; }
+.modal-head .eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--data);
+  margin-bottom: 3px;
+}
+.modal .x {
+  flex: none;
+  border: 0;
+  background: var(--muted);
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--muted-foreground);
+  font-size: 16px;
+}
+.modal .x:hover { background: #ececec; color: var(--foreground); }
+.modal-body { padding: 6px 20px 20px; }
+.modal-body p { margin: 12px 0 0; font-size: 13.5px; line-height: 1.5; color: #3f3f3f; }
+.modal-body .foot {
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.modal-body .foot + .foot {
+  margin-top: 10px;
+  padding-top: 0;
+  border-top: none;
+}
+.modal-body a {
+  color: var(--accent-blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---- soften MapLibre's default controls to match the token set ---- */
+.maplibregl-ctrl-group {
+  border-radius: var(--radius-inner) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

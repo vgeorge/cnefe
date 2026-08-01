@@ -1,4 +1,5 @@
-data
 node_modules
-cnefe
+dist
+.vite
+*.local
 *.pmtiles

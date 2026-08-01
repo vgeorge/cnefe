@@ -1,7 +1,7 @@
 {
   "name": "cnefe",
   "version": "0.0.1",
-  "description": "CNEFE data",
+  "description": "CNEFE Brasil — visualizador web dos dados do CNEFE (IBGE) para comparar com o OpenStreetMap",
   "repository": "git@github.com:vgeorge/cnefe.git",
   "author": "Vitor George <vitor.george@gmail.com>",
   "license": "MIT"
