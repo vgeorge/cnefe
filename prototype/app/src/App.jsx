@@ -7,11 +7,12 @@ import { toOsmCase } from "./lib/osmCase.js";
 // Register the pmtiles:// protocol once, at module load.
 maplibregl.addProtocol("pmtiles", new Protocol().tile);
 
-// PMTiles source. Defaults to the local Aracaju archive in /public; override with
-// VITE_PMTILES_URL (e.g. the national archive served from a range-capable host).
+// PMTiles source: national archive (todo o Brasil) on Cloudflare R2.
+// NOTE: pub-*.r2.dev is rate-limited / dev-only — swap for a custom domain in
+// production. Override the default with VITE_PMTILES_URL.
 const PMTILES_URL =
   import.meta.env.VITE_PMTILES_URL ||
-  `${window.location.origin}/national.pmtiles`;
+  "https://pub-573949e7139941dc902afe5ba844ba35.r2.dev/national.pmtiles";
 
 // National view: Brazil bounding box [W, S, E, N].
 const BRAZIL_BBOX = [-73.99, -33.75, -34.79, 5.27];
