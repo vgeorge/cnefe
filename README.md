@@ -1,59 +1,45 @@
-# Censo 2010 - CNEFE
+# CNEFE Brasil
 
-Datasets from the National Register of Addresses for Statistical Purposes (CNEFE) of the 2010 Demographic Census, conducted by Brazilian Institute by Geography and Statistics.
+Visualizador web dos dados do **CNEFE** (Cadastro Nacional de Endereços para
+Fins Estatísticos, IBGE) para comparar com o **OpenStreetMap**, lado a lado com
+qualquer editor.
 
-[CNEFE website.](https://ww2.ibge.gov.br/home/estatistica/populacao/censo2010/cnefe/default_cnefe.shtm)
+A primeira camada mostra as **faces de logradouro do Censo 2022** (nomes de rua).
+Camadas futuras podem incluir os **pontos de endereço** do CNEFE.
 
-[Leia este documento em português.](README-pt.md)
+Dados do IBGE são de domínio público e podem ser usados no OSM, citando a fonte —
+ver [CNEFE data, IBGE, Brasil import](https://wiki.openstreetmap.org/wiki/CNEFE_data,_IBGE,_Brasil_import)
+na wiki do OSM.
 
-## Motivation
+## App
 
-This repository aims to facilitate access to CNEFE data. The datasets have thousands of files and download can take a long time. All files listed here have a torrent version for faster download. Thanks for seeding!
-
-## List of datasets
-
-### CNEFE (2010)
-
-Fixed width text files containing all addresses. Updated by IBGE in 2019/08/13.
-
-- 📂 [ftp](https://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos)
-- ⬇ [.torrent](https://raw.githubusercontent.com/vgeorge/cnefe/master/torrent/cnefe-2010.torrent)
-
-Download directly with wget:
+Vite + React + MapLibre. Fica em [`prototype/app`](prototype/app).
 
 ```bash
-wget -r -N -l inf --no-passive-ftp ftp://ftp.ibge.gov.br/Censos/Censo_Demografico_2010/Cadastro_Nacional_de_Enderecos_Fins_Estatisticos
+cd prototype/app
+npm install
+npm run dev      # http://localhost:5173
 ```
 
-### Faces de Logradouros (2010)
+### Dados (PMTiles)
 
-- 📂 [ftp](https://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2010)
-- ⬇ [.torrent](https://raw.githubusercontent.com/vgeorge/cnefe/master/torrent/cnefe-2010-logradouros-2010.torrent)
-
-Download directly with wget:
+O mapa lê um único arquivo `.pmtiles` (MVT vetorial, leitura por range HTTP). Em
+produção ele é hospedado em um bucket **Cloudflare R2** público. Configure a URL
+via variável de ambiente:
 
 ```bash
-wget -r -N -l inf --no-passive-ftp ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2010
+# prototype/app/.env.local
+VITE_PMTILES_URL=https://<seu-bucket-r2>.r2.dev/national.pmtiles
 ```
 
-### Faces de Logradouros (2019)
+Ver [`prototype/app/.env.example`](prototype/app/.env.example). Sem a variável, o
+app procura `national.pmtiles` na própria origem.
 
-- 📂 [ftp](https://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2019)
-- ⬇ [.torrent](https://raw.githubusercontent.com/vgeorge/cnefe/master/torrent/cnefe-2010-logradouros-2019.torrent)
+O host precisa suportar **CORS** e **range requests** (o R2 público atende os
+dois). Para desenvolvimento local há um servidor simples em
+`data/faces2022/serve.mjs`.
 
-Download directly with wget:
+## Fonte dos dados
 
-```bash
-wget -r -N -l inf --no-passive-ftp ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2019
-```
-
-### Faces de Logradouros (2020)
-
-- 📂 [ftp](https://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2020)
-- ⬇ [.torrent](https://raw.githubusercontent.com/vgeorge/cnefe/master/torrent/cnefe-2010-logradouros-2020.torrent)
-
-Download directly with wget:
-
-```bash
-wget -r -N -l inf --no-passive-ftp ftp://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2010/base_de_faces_de_logradouros_versao_2020
-```
+IBGE — Base de Faces de Logradouros do Censo 2022:
+<https://geoftp.ibge.gov.br/recortes_para_fins_estatisticos/malha_de_setores_censitarios/censo_2022/base_de_faces_de_logradouros_versao_2022_censo_demografico/>

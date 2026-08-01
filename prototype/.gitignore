@@ -1,0 +1,12 @@
+# download + intermediate build artifacts (large)
+.cache/
+
+# app deps/build
+app/node_modules/
+app/dist/
+
+# generated tile archives (regenerate via build.sh)
+*.pmtiles
+app/public/
+
+# keep: public/tiles/ (small, ~6.9 MB) and verify/ screenshots
