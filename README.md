@@ -1,11 +1,15 @@
 # CNEFE Brasil
 
-Visualizador web dos dados do **CNEFE** (Cadastro Nacional de Endereços para
-Fins Estatísticos, IBGE) para comparar com o **OpenStreetMap**, lado a lado com
-qualquer editor.
+Protótipo para **apoiar o mapeamento no OpenStreetMap**: um mapa de referência das
+**faces de logradouro do CNEFE 2022** (IBGE) para comparar nomes de rua com o OSM,
+ao lado de qualquer editor. Clique numa via para copiar o nome; ative **Comparar**
+para ver CNEFE × OSM lado a lado.
 
-A primeira camada mostra as **faces de logradouro do Censo 2022** (nomes de rua).
-Camadas futuras podem incluir os **pontos de endereço** do CNEFE.
+Parte do esforço da comunidade OSM Brasil de usar a CNEFE no mapeamento de
+logradouros —
+[discussão](https://community.openstreetmap.org/t/cnefe-2022-disponibilizacao-de-nomes-de-logradouros-para-mapeamento/140937).
+A primeira camada são as faces de logradouro (nomes de rua); camadas futuras podem
+incluir os pontos de endereço da CNEFE.
 
 Dados do IBGE são de domínio público e podem ser usados no OSM, citando a fonte —
 ver [CNEFE data, IBGE, Brasil import](https://wiki.openstreetmap.org/wiki/CNEFE_data,_IBGE,_Brasil_import)
@@ -13,31 +17,27 @@ na wiki do OSM.
 
 ## App
 
-Vite + React + MapLibre. Fica em [`prototype/app`](prototype/app).
+Vite + React + MapLibre, em [`app/`](app). Design em [`SPEC.md`](SPEC.md).
 
 ```bash
-cd prototype/app
+cd app
 npm install
 npm run dev      # http://localhost:5173
 ```
 
-### Dados (PMTiles)
+## Dados (PMTiles)
 
-O mapa lê um único arquivo `.pmtiles` (MVT vetorial, leitura por range HTTP). Em
-produção ele é hospedado em um bucket **Cloudflare R2** público. Configure a URL
-via variável de ambiente:
+As ~13,8 milhões de faces de logradouro de todo o Brasil ficam num **único arquivo
+`.pmtiles`** (tiles vetoriais MVT, z13–15). O MapLibre lê esse arquivo direto por
+**range requests** HTTP (protocolo `pmtiles://`) — sem servidor de tiles: o cliente
+baixa só os trechos visíveis e faz overzoom para z16+. O arquivo é hospedado num
+bucket **Cloudflare R2** público (CORS + range).
 
-```bash
-# prototype/app/.env.local
-VITE_PMTILES_URL=https://<seu-bucket-r2>.r2.dev/national.pmtiles
-```
+O app já aponta para o R2 por padrão. Para sobrescrever (servidor local, domínio
+customizado), defina `VITE_PMTILES_URL` — ver [`app/.env.example`](app/.env.example).
 
-Ver [`prototype/app/.env.example`](prototype/app/.env.example). Sem a variável, o
-app procura `national.pmtiles` na própria origem.
-
-O host precisa suportar **CORS** e **range requests** (o R2 público atende os
-dois). Para desenvolvimento local há um servidor simples em
-`data/faces2022/serve.mjs`.
+> Nota: a URL `pub-*.r2.dev` é rate-limited (dev). Em produção, usar domínio
+> customizado no bucket.
 
 ## Fonte dos dados
 
